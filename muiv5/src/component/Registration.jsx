@@ -1,5 +1,5 @@
 import { AddCircleOutlineOutlined } from '@mui/icons-material'
-import { Avatar, Button, Checkbox, FormControlLabel, Grid, Paper, TextField, Typography } from '@mui/material'
+import { Avatar, Button, Checkbox, FormControlLabel, Grid, Link, Paper, TextField, Typography } from '@mui/material'
 import React from 'react'
 
 const Registration = () => {
@@ -28,6 +28,9 @@ const Registration = () => {
           />
           <Button type='submit' variant='contained' color='primary'>Sign up</Button>
         </form>
+        <Typography > Do you have an account ?
+          <Link href="#" >Sign In</Link>
+        </Typography>
       </Paper>
     </Grid>
   )
