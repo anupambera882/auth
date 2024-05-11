@@ -5,7 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 
 
-const Login = () => {
+const Login = ({handleChange}) => {
   const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "12vh auto" }
   const avatarStyle = { backgroundColor: '#1bbd7e' }
 
@@ -37,7 +37,6 @@ const Login = () => {
         <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
           {(props) => (
             <Form>
-              {console.log(props.errors)}
               <Field as={TextField} name='email' style={{ margin: '8px 0' }} label='Email' placeholder='Enter email' fullWidth required autoFocus helperText={<ErrorMessage name="email" />} />
               <Field as={TextField} name='password' style={{ margin: '8px 0' }} label='Password' placeholder='Enter password' type='password' fullWidth required helperText={<ErrorMessage name="password" />} />
               <Field as={FormControlLabel}
@@ -45,7 +44,7 @@ const Login = () => {
                 control={<Checkbox color="primary" />}
                 label="Remember me"
               />
-              <Button type='submit' color='primary' variant="contained" style={{ margin: '8px 0' }} fullWidth>{props.isSubmitting ? "Loading" : "Sign in"}</Button>
+              <Button type='submit' color='primary' variant="contained" style={{ margin: '8px 0' }} disabled={props.isSubmitting} fullWidth>{props.isSubmitting ? "Loading" : "Sign in"}</Button>
               <Typography >
                 <Link href="#" >
                   Forgot password ?
@@ -55,7 +54,7 @@ const Login = () => {
           )}
         </Formik>
         <Typography > Do you have an account ?
-          <Link href="#" >
+          <Link href="#" onClick={() => handleChange("event", 1)} >
             Sign Up
           </Link>
         </Typography>
