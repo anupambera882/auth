@@ -1,10 +1,32 @@
-import { LockOutlined } from '@mui/icons-material'
-import { Avatar, Button, Checkbox, FormControlLabel, Grid, Link, Paper, TextField, Typography } from '@mui/material'
-import React from 'react'
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { LockOutlined } from '@mui/icons-material';
+import { Avatar, Button, Checkbox, FormControlLabel, Grid, Link, Paper, TextField, Typography } from '@mui/material';
+import React from 'react';
+import * as Yup from 'yup';
+
 
 const Login = () => {
   const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "12vh auto" }
   const avatarStyle = { backgroundColor: '#1bbd7e' }
+
+  const initialValues = {
+    email: '',
+    password: '',
+    remember: false
+  };
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email('please enter valid email').required("Required"),
+    password: Yup.string().required("Required")
+  });
+
+  const onSubmit = (values, props) => {
+    setTimeout(() => {
+      props.resetForm()
+      props.setSubmitting(false)
+    }, 2000);
+  }
+
   return (
     <Grid>
       <Paper elevation={24} style={paperStyle}>
@@ -12,23 +34,26 @@ const Login = () => {
           <Avatar style={avatarStyle}><LockOutlined /></Avatar>
           <h2>Sign In</h2>
         </Grid>
-        <TextField style={{ margin: '8px 0' }} label='Email' placeholder='Enter email' fullWidth required type='email' autoFocus/>
-        <TextField style={{ margin: '8px 0' }} label='Password' placeholder='Enter password' type='password' fullWidth required />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="checkedB"
-              color="primary"
-            />
-          }
-          label="Remember me"
-        />
-        <Button type='submit' color='primary' variant="contained" style={{ margin: '8px 0' }} fullWidth>Sign in</Button>
-        <Typography >
-          <Link href="#" >
-            Forgot password ?
-          </Link>
-        </Typography>
+        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+          {(props) => (
+            <Form>
+              {console.log(props.errors)}
+              <Field as={TextField} name='email' style={{ margin: '8px 0' }} label='Email' placeholder='Enter email' fullWidth required autoFocus helperText={<ErrorMessage name="email" />} />
+              <Field as={TextField} name='password' style={{ margin: '8px 0' }} label='Password' placeholder='Enter password' type='password' fullWidth required helperText={<ErrorMessage name="password" />} />
+              <Field as={FormControlLabel}
+                name='remember'
+                control={<Checkbox color="primary" />}
+                label="Remember me"
+              />
+              <Button type='submit' color='primary' variant="contained" style={{ margin: '8px 0' }} fullWidth>{props.isSubmitting ? "Loading" : "Sign in"}</Button>
+              <Typography >
+                <Link href="#" >
+                  Forgot password ?
+                </Link>
+              </Typography>
+            </Form>
+          )}
+        </Formik>
         <Typography > Do you have an account ?
           <Link href="#" >
             Sign Up
