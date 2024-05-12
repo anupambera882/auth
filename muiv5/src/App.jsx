@@ -1,10 +1,13 @@
 import './App.css';
+import { RecoilRoot } from "recoil";
 import RoutesComponents from './routes/RoutesComponents';
 
 function App() {
   return (
     <>
-    <RoutesComponents/>
+      <RecoilRoot>
+        <RoutesComponents />
+      </RecoilRoot>
     </>
   );
 }

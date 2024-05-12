@@ -3,9 +3,13 @@ import { LockOutlined } from '@mui/icons-material';
 import { Avatar, Button, Checkbox, FormControlLabel, Grid, Link, Paper, TextField, Typography } from '@mui/material';
 import React from 'react';
 import * as Yup from 'yup';
+import axios from "../common/axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import { auth } from "../Redux/AuthProvider";
+import { useSetRecoilState } from "recoil";
 
 
-const Login = ({handleChange}) => {
+const Login = ({ handleChange }) => {
   const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "6vh auto" }
   const avatarStyle = { backgroundColor: '#1bbd7e' }
 
@@ -20,11 +24,25 @@ const Login = ({handleChange}) => {
     password: Yup.string().required("Required")
   });
 
-  const onSubmit = (values, props) => {
-    setTimeout(() => {
-      props.resetForm()
-      props.setSubmitting(false)
-    }, 2000);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/home";
+  const setAuth = useSetRecoilState(auth);
+
+
+  const onSubmit = async ({ email, password }, props) => {
+    try {
+      const response = await axios.post('auth/login', { email, password });
+      localStorage.setItem("jwt", response?.data?.response?.access_token);
+      const accessToken = response?.data?.response?.access_token;
+      const roles = response?.data?.response?.user?.role;
+      setAuth({ user: email, accessToken, roles });
+      props.resetForm();
+      props.setSubmitting(false);
+      navigate(from, { replace: true });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
