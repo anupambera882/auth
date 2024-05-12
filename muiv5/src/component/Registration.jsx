@@ -5,7 +5,7 @@ import React from 'react';
 import * as Yup from 'yup';
 
 const Registration = () => {
-  const paperStyle = { padding: '30px 20px', width: 300, margin: "8vh auto" };
+  const paperStyle = { padding: '30px 20px', width: 300, margin: "5vh auto" };
   const headerStyle = { margin: 0 };
   const avatarStyle = { backgroundColor: '#1bbd7e' };
 
@@ -36,7 +36,7 @@ const Registration = () => {
 
   return (
     <Grid>
-      <Paper margin elevation={24} style={paperStyle}>
+      <Paper elevation={24} style={paperStyle}>
         <Grid align='center'>
           <Avatar style={avatarStyle}>
             <AddCircleOutlineOutlined />
