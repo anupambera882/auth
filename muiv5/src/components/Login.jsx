@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 
 
 const Login = ({handleChange}) => {
-  const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "12vh auto" }
+  const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "6vh auto" }
   const avatarStyle = { backgroundColor: '#1bbd7e' }
 
   const initialValues = {

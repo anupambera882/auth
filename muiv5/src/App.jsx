@@ -1,11 +1,10 @@
 import './App.css';
-import Login from './component/Login';
-// import Registration from './component/Registration';
+import RoutesComponents from './routes/RoutesComponents';
 
 function App() {
   return (
     <>
-    <Login/>
+    <RoutesComponents/>
     </>
   );
 }
