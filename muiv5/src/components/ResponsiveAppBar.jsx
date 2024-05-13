@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -7,6 +7,8 @@ import {
   Button,
   styled,
 } from "@mui/material";
+import { useSetRecoilState } from "recoil";
+import { auth } from "../Redux/AuthProvider";
 
 const StyledButton = styled(Button)({
   marginRight: "8px",
@@ -15,10 +17,18 @@ const StyledButton = styled(Button)({
 });
 
 const ResponsiveAppBar = ({ allowedRoles }) => {
+  const setAuth = useSetRecoilState(auth);
+  const navigate = useNavigate();
+  const logout = async () => {
+    setAuth({});
+    localStorage.removeItem('jwt');
+    navigate('/login');
+  }
+
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" component={Link} to="/" sx={{ textDecoration: 'none', color: 'inherit',flexGrow: 1 }}>
+        <Typography variant="h6" component={Link} to="/" sx={{ textDecoration: 'none', color: 'inherit', flexGrow: 1 }}>
           My Website
         </Typography>
         <div>
@@ -30,12 +40,9 @@ const ResponsiveAppBar = ({ allowedRoles }) => {
               User
             </StyledButton>
           )}
-          <StyledButton component={Link} to="/contact" color="inherit">
-            Contact
-          </StyledButton>
-          <StyledButton component={Link} to="/faq" color="inherit">
-            FAQ
-          </StyledButton>
+          <Button onClick={logout} color="inherit">
+            Logout
+          </Button>
         </div>
       </Toolbar>
     </AppBar>
