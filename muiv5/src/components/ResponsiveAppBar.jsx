@@ -14,7 +14,7 @@ const StyledButton = styled(Button)({
   textDecoration: "none",
 });
 
-const ResponsiveAppBar = ({ isAuthenticated }) => {
+const ResponsiveAppBar = ({ allowedRoles }) => {
   return (
     <AppBar position="static">
       <Toolbar>
@@ -25,9 +25,11 @@ const ResponsiveAppBar = ({ isAuthenticated }) => {
           <StyledButton component={Link} to="/" color="inherit">
             Home
           </StyledButton>
-          <StyledButton component={Link} to="/about" color="inherit">
-            About
-          </StyledButton>
+          {allowedRoles.includes("Admin") && (
+            <StyledButton component={Link} to="/user" color="inherit">
+              User
+            </StyledButton>
+          )}
           <StyledButton component={Link} to="/contact" color="inherit">
             Contact
           </StyledButton>
