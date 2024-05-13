@@ -5,24 +5,32 @@ import { useEffect, useState } from "react";
 import * as Yup from "yup";
 
 const UserProfile = () => {
-  const [user, setUsers] = useState({});
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true); // Add loading state
+
   useEffect(() => {
-    const getUsers = async () => {
+    const fetchData = async () => {
       try {
         const response = await axios.get('auth/profile');
-        setUsers(response.data.response);
+        setUser(response.data.response);
+        setLoading(false); // Set loading to false after data is fetched
       } catch (err) {
         console.error(err);
+        setLoading(false); // Set loading to false even in case of error
       }
-    }
-    getUsers();
-  },[])
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Render loading indicator while fetching data
+  }
 
   const initialValues = {
-    name: user.name,
-    email: user.email,
-    phone: user.phone,
-    roles: user.roles,
+    name: user.name || "",
+    email: user.email || "",
+    phone: user.phone || "",
+    roles: user.roles || "",
   };
 
   const validationSchema = Yup.object({
@@ -89,7 +97,6 @@ const UserProfile = () => {
                       name="profilePicUpload"
                       accept="image/jpg, image/png, image/jpeg"
                       onChange={(e) => {
-                        // setFieldValue("profilePicUpload", e.currentTarget.files[0]);
                         handleImgUpload(e.currentTarget.files[0]);
                       }}
                     />
