@@ -1,8 +1,10 @@
 import { AddCircleOutlineOutlined } from '@mui/icons-material';
 import { Avatar, Button, Checkbox, FormControlLabel, FormHelperText, Grid, Link, Paper, TextField, Typography } from '@mui/material';
+import axios from '../common/axios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
 const Registration = () => {
   const paperStyle = { padding: '30px 20px', width: 300, margin: "5vh auto" };
@@ -27,11 +29,16 @@ const Registration = () => {
     termsAndConditions: Yup.string().oneOf(["true"], "Accept terms & conditions")
   });
 
-  const onSubmit = (values, props) => {
-    setTimeout(() => {
-      props.resetForm()
-      props.setSubmitting(false)
-    }, 2000)
+  const navigate = useNavigate();
+  const onSubmit = async ({ name, email, phoneNumber, password }, { resetForm, setSubmitting }) => {
+    try {
+      await axios.post('auth/register', { name, email, phone: phoneNumber, password });
+      resetForm();
+      setSubmitting(false);
+      navigate('/login');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

@@ -36,7 +36,10 @@ const Login = ({ handleChange }) => {
       localStorage.setItem("jwt", response?.data?.response?.access_token);
       const accessToken = response?.data?.response?.access_token;
       const roles = response?.data?.response?.user?.role;
-      setAuth({ user: email, accessToken, roles });
+      const name = response?.data?.response?.user?.name;
+      const phone = response?.data?.response?.user?.phone;
+      const picture = response?.data?.response?.user?.picture;
+      setAuth({ name, phone, user: email, accessToken, roles, picture });
       props.resetForm();
       props.setSubmitting(false);
       navigate(from, { replace: true });

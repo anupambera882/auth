@@ -12,6 +12,7 @@ const Registration = lazy(() => import("../components/Registration.jsx"));
 const Home = lazy(() => import("../components/Home.jsx"));
 const Users = lazy(() => import("../components/User.jsx"));
 const Unauthorized = lazy(() => import("../components/Unauthorized.jsx"));
+const UserProfile = lazy(() => import("../components/UserProfile.jsx"));
 
 const ROLES = {
   User: 'User',
@@ -37,6 +38,7 @@ const RoutesComponents = () => {
           <Route path="login" element={auth?.user ? <Navigate to="/home" /> : <Suspense fallback={<Loader />}><Login /></Suspense>} />
           <Route path="register" element={auth?.user ? <Navigate to="/home" /> : <Suspense fallback={<Loader />}><Registration /></Suspense>} />
           <Route index element={<Navigate replace to="home" />} />
+          <Route path="profile" element={<Suspense fallback={<Loader />}><UserProfile /></Suspense>} />
           <Route path="home" element={<Suspense fallback={<Loader />}><Home /></Suspense>} />
           <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
             <Route path="user" element={<Suspense fallback={<Loader />}><Users /></Suspense>} />
